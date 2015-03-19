@@ -1,8 +1,8 @@
 (function(doc) {
     var qs = doc.querySelector.bind(doc);
-    var qsa = function(selector) {
+    function qsa(selector) {
         return [].slice.call(doc.querySelectorAll(selector))
-    };
+    }
 
 
     if (!Element.prototype.closest) {
@@ -30,17 +30,17 @@
             }
         }
     }
-    window.addEventListener('load', function() {
+    window.addEventListener("load", function() {
 
         // jQuery Elements
 
-        var iframe = qs('#graph')
-            , input = qs('.form-elm')
-            , username = qs('.username')
-            , embed = qs('.embed textarea')
-            , twitter = qs('.popup a.twitter')
-            , facebook = qs('.popup a.facebook')
-            , gplus = qs('.popup a.gplus')
+        var iframe = qs("#graph")
+            , input = qs(".form-elm")
+            , username = qs(".username")
+            , embed = qs(".embed textarea")
+            , twitter = qs(".popup a.twitter")
+            , facebook = qs(".popup a.facebook")
+            , gplus = qs(".popup a.gplus")
             , apiUrl = "https://ionicabizau.github.io/github-profile-languages/api.html"
             ;
 
@@ -56,20 +56,20 @@
             var queryStringUser = Url.queryString("user");
             var user = decodeURIComponent(queryStringUser);
             if (!user) {
-                username.textContent = 'GitHub Profile';
+                username.textContent = "GitHub Profile";
                 return
             }
-            var a = document.createElement('a');
-            a.setAttribute('target', 'blank');
-            a.href = 'https://github.com/' + user;
+            var a = document.createElement("a");
+            a.setAttribute("target", "blank");
+            a.href = "https://github.com/" + user;
             a.textContent = user.replace(/^@/, '');
 
             username.appendChild(a);
-            username.appendChild(document.createTextNode('\'s'));
+            username.appendChild(document.createTextNode("'s"));
 
-            iframe.src = 'api.html?' + user;
+            iframe.src = "api.html?" + user;
             input.value = user;
-            embed.value = '<iframe width="600" height="600" src="' + apiUrl + '?' + user + '" frameborder="0"></iframe>';
+            embed.value = "<iframe width=\"600\" height=\"600\" src=\"" + apiUrl + "?" + user + "\" frameborder=\"0\"></iframe>";
 
             // Update social
             var escaped = encodeURI(location.href);
@@ -92,25 +92,25 @@
         check();
 
         // Popups
-        document.addEventListener('click', function popupStartListener(event) {
+        document.addEventListener("click", function popupStartListener(event) {
             var target = event.target;
             if (target.dataset.popup !== undefined) {
-                qs(target.dataset.popup).classList.toggle('open');
+                qs(target.dataset.popup).classList.toggle("open");
             }
         });
 
-        document.addEventListener('click', function popupCloseListener(event) {
+        document.addEventListener("click", function popupCloseListener(event) {
             var target = event.target;
             var parentPopup;
-            if (target.classList.contains('close') && (parentPopup = target.closest('.popup')) !== null) {
-                parentPopup.classList.toggle('open');
+            if (target.classList.contains("close") && (parentPopup = target.closest(".popup")) !== null) {
+                parentPopup.classList.toggle("open");
             }
         });
 
 
         window.addEventListener("keydown", function setPopupCloseAllListener(e) {
             if (e.which === 27) {
-                qsa(".popup.open").forEach(function(el) { el.classList.remove('.open'); });
+                qsa(".popup.open").forEach(function(el) { el.classList.remove(".open"); });
             }
         });
 

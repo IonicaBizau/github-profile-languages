@@ -5,7 +5,7 @@
             var xhr = new XMLHttpRequest();
             xhr.open(method, url);
 
-            var paramsString = seralizeFormParameters(params);
+            var paramsString = serializeFormParameters(params);
 
             xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
@@ -20,7 +20,7 @@
     }
 
     function getJSON(url) {
-        return xhr(url, 'get', null)
+        return xhr(url, "get", null)
             .then(function(data) {
                 console.log(data);
                 return(data);
@@ -28,18 +28,19 @@
             .then(JSON.parse);
     }
 
-    function seralizeFormParameters(parameters) {
+    function serializeFormParameters(parameters) {
         if (!parameters) { return parameters; }
         return Object.keys(parameters).map(function(result, key) {
-            return key + "=" + parameters[key];
-        }).join('&');
+            var cValue = parameters[key];
+            return key + "=" + cValue;
+        }).join("&");
     }
 
-    window.addEventListener('load', function apiOnDomReady() {
+    window.addEventListener("load", function apiOnDomReady() {
 
         var loading = doc.querySelector(".loading");
         var errorDiv = doc.querySelector(".error");
-        var errorMessage = errorDiv.querySelector('.message');
+        var errorMessage = errorDiv.querySelector(".message");
 
         function getAllRepos(user, page, repos) {
             page = page || 1;
@@ -55,7 +56,7 @@
                         return !c.fork;
                     });
                     if (!repos.length) {
-                        return Promise.reject(new Error('This user doesn\'t have any repositories.'));
+                        return Promise.reject(new Error("This user doesn't have any repositories."));
                     }
                     localStorage[user] = JSON.stringify(repos);
                     return repos;
@@ -70,12 +71,12 @@
         if (!user) {
             return;
         }
-        loading.classList.add('visible');
+        loading.classList.add("visible");
 
         getAllRepos(user)
             .then(function (repos) {
-                loading.classList.remove('visible');
-                errorDiv.classList.remove('visible');
+                loading.classList.remove("visible");
+                errorDiv.classList.remove("visible");
                 var languages = {};
                 repos.forEach(function (c) {
                     languages[c.language] = languages[c.language] || 0;
@@ -102,8 +103,8 @@
                 });
             })
             .catch(function (err) {
-                loading.classList.remove('visible');
-                errorDiv.classList.add('visible');
+                loading.classList.remove("visible");
+                errorDiv.classList.add("visible");
                 errorMessage.textContent = err || "This user doesn't have any repositories.";
                 throw err; // So that it shows in the console.
             });
