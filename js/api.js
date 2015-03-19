@@ -1,4 +1,4 @@
-(function($, doc) {
+(function(doc) {
 
     function xhr(url, method, params) {
         return new Promise(function(resolve, reject) {
@@ -66,7 +66,7 @@
                 });
         }
 
-        var user = location.search.replace(/^\?\@?/g, "");
+        var user = location.search.replace(/^\?@?/g, "");
         if (!user) {
             return;
         }
@@ -75,7 +75,7 @@
         getAllRepos(user)
             .then(function (repos) {
                 loading.classList.remove('visible');
-                errorMessage.stop().fadeOut();
+                errorDiv.classList.remove('visible');
                 var languages = {};
                 repos.forEach(function (c) {
                     languages[c.language] = languages[c.language] || 0;
@@ -97,7 +97,7 @@
                 arr.sort(function (a, b) {
                     return a.value < b.value ? 1 : -1;
                 });
-                $("#pieChart").drawPieChart(arr, {
+                drawPieChart.call(doc.querySelector("#pieChart"), arr, {
                     legend: true
                 });
             })
@@ -108,4 +108,4 @@
                 throw err; // So that it shows in the console.
             });
     });
-})(jQuery, document);
+})(document);
