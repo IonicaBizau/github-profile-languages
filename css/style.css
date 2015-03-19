@@ -1,0 +1,9 @@
+@import url("https://cdn.rawgit.com/IonicaBizau/CaiuSS/master/dist/caiuss.min.css");
+.content {
+    background-color: #fff;
+}
+
+#graph {
+    width: 600px;
+    height: 600px;
+}
