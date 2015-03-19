@@ -16,6 +16,7 @@ $(function(){
     }
 
     var user = location.search.replace(/^\?\@?/g, "");
+    if (!user) { return; }
     $(".loading").fadeIn();
     getAllRepos(user, function (err, repos) {
         $(".loading").fadeOut();
