@@ -21,7 +21,8 @@ $(function () {
      */
     function check() {
         var user = unescape(Url.queryString("user"));
-        $username.text(user ? "@" + user.replace(/^@/, "") + "'s" : "GitHub Profile");
+        // TODO XSS
+        $username.html(user ? "<a target='blank' href='https://github.com/" + user + "'>@" + user.replace(/^@/, "") + "</a>'s" : "GitHub Profile");
         if (!user) { return; }
         $iframe.attr("src", "api.html?" + user);
         $input.val(user);

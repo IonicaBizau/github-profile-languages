@@ -78,6 +78,7 @@
     background: #DD4B39;
 }
 
+.username > a:hover,
 .footer > a:hover {
     color: #16a085;
 }
