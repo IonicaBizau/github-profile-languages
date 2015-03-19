@@ -3,12 +3,12 @@ $(function () {
       , $input = $(".form-elm")
       , $username = $(".username")
       , $embed = $(".embed textarea")
-      , apiUrl = "https://ionicabizau.github.io/github-account-languages/api.html"
+      , apiUrl = "https://ionicabizau.github.io/github-profile-languages/api.html"
       ;
 
     function check() {
         var user = unescape(Url.queryString("user"));
-        $username.text(user ? "@" + user.replace(/^@/, "") + "'s" : "GitHub Account");
+        $username.text(user ? "@" + user.replace(/^@/, "") + "'s" : "GitHub Profile");
         if (!user) { return; }
         $iframe.attr("src", "api.html?" + user);
         $input.val(user);
