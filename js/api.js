@@ -1,4 +1,4 @@
-(function($) {
+(function($, doc) {
 
     function xhr(url, method, params) {
         return new Promise(function(resolve, reject) {
@@ -37,13 +37,14 @@
 
     window.addEventListener('load', function apiOnDomReady() {
 
+        var loading = doc.querySelector(".loading");
+        var errorDiv = doc.querySelector(".error");
+        var errorMessage = errorDiv.querySelector('.message');
+
         function getAllRepos(user, page, repos) {
             page = page || 1;
             repos = repos || [];
-            try {
-                return callback(null, JSON.parse(localStorage[user]));
-            } catch (e) {
-            }
+            if (localStorage[user]) { return Promise.resolve(JSON.parse(localStorage[user])); }
             return getJSON("https://api.github.com/users/" + user + "/repos?per_page=100&page=" + page)
                 .then(function (newRepos) {
                     if (newRepos.length) {
@@ -69,12 +70,12 @@
         if (!user) {
             return;
         }
-        $(".loading").stop().fadeIn();
+        loading.classList.add('visible');
 
         getAllRepos(user)
             .then(function (repos) {
-                $(".loading").stop().fadeOut();
-                $(".error > .message").stop().fadeOut();
+                loading.classList.remove('visible');
+                errorMessage.stop().fadeOut();
                 var languages = {};
                 repos.forEach(function (c) {
                     languages[c.language] = languages[c.language] || 0;
@@ -101,9 +102,10 @@
                 });
             })
             .catch(function (err) {
-                $(".error").stop().fadeIn();
-                $(".error > .message").html(err || "This user doesn't have any repositories.");
+                loading.classList.remove('visible');
+                errorDiv.classList.add('visible');
+                errorMessage.textContent = err || "This user doesn't have any repositories.";
                 throw err; // So that it shows in the console.
             });
     });
-})(jQuery);
+})(jQuery, document);
