@@ -11,8 +11,34 @@
   $.fn.drawPieChart = function(data, options) {
     var $this = this,
       W = $this.width(),
-      H = $this.height(),
-      centerX = W/2,
+      H = $this.height()
+      $legend = null,
+       y = 0;
+
+    if (options.legend) {
+        var legend = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        $legend = $(legend);
+        $legend[0].classList.add("legend");
+        data.forEach(function (cData) {
+            var c = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            var rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+            rect.setAttribute("width", "10");
+            rect.setAttribute("height", "10");
+            c.setAttribute("transform", "translate(0," + (150 + (y += 20)) + ")");
+            var text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            text.innerHTML = cData.title;
+            text.setAttribute("y", 11);
+            text.setAttribute("x", 20);
+
+            rect.setAttribute("fill", cData.color);
+            $(rect).appendTo($(c));
+            $(text).appendTo($(c));
+            $(c).appendTo($legend);
+        });
+        H -= y;
+    }
+
+    var centerX = W/2,
       centerY = H/2,
       cos = Math.cos,
       sin = Math.sin,
@@ -39,7 +65,8 @@
         afterDrawed : function(){  },
         onPieMouseenter : function(e,data){  },
         onPieMouseleave : function(e,data){  },
-        onPieClick : function(e,data){  }
+        onPieClick : function(e,data){  },
+        legend: false
       }, options),
       animationOptions = {
         linear : function (t){
@@ -61,7 +88,7 @@
           };
       }();
 
-    var $wrapper = $('<svg width="' + W + '" height="' + H + '" viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"></svg>').appendTo($this);
+    var $wrapper = $('<svg width="' + W + '" height="' + (H + y) + '" viewBox="0 0 ' + W + ' ' + (H + y) + '" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"></svg>').appendTo($this);
     var $groups = [],
         $pies = [],
         $lightPies = [],
@@ -73,11 +100,16 @@
     var drawBasePie = function(){
       var base = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
       var $base = $(base).appendTo($wrapper);
+      base.classList.add("pie");
       base.setAttribute("cx", centerX);
       base.setAttribute("cy", centerY);
       base.setAttribute("r", pieRadius+settings.baseOffset);
       base.setAttribute("fill", settings.baseColor);
     }();
+
+    if (options.legend) {
+        legend.setAttribute("transform", "translate(0," + pieRadius  + ")");
+    }
 
     //Set up pie segments wrapper
     var pathGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
@@ -108,6 +140,10 @@
       p.setAttribute("fill", data[i].color);
       p.setAttribute("class", settings.pieSegmentClass);
       $pies[i] = $(p).appendTo($groups[i]);
+
+      if (options.legend) {
+        $(legend).appendTo($wrapper);
+      }
 
       var lp = document.createElementNS('http://www.w3.org/2000/svg', 'path');
       lp.setAttribute("stroke-width", settings.segmentStrokeWidth);

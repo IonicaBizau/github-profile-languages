@@ -10,26 +10,41 @@ $(function(){
             callback (null, repos.filter(function (c) {
                 return !c.fork;
             }));
-        });
+        }).error(function(err) {
+            callback(err.responseJSON.message);
+        })
     }
 
     var user = location.search.replace(/^\?\@?/g, "");
     $(".loading").fadeIn();
     getAllRepos(user, function (err, repos) {
         $(".loading").fadeOut();
-        if (!repos.length) {
+        if (err || !repos.length) {
             $(".error").fadeIn();
-            return $(".error > .message").html("This user doesn't have any repositories.");
+            return $(".error > .message").html(err || "This user doesn't have any repositories.");
         }
         $(".error > .message").fadeOut();
-        $("#pieChart").drawPieChart([
-            { title: "Tokyo",         value : 180,  color: "#02B3E7" },
-            { title: "San Francisco", value:  60,   color: "#CFD3D6" },
-            { title: "London",        value : 50,   color: "#736D79" },
-            { title: "New York",      value:  30,   color: "#776068" },
-            { title: "Sydney",        value : 20,   color: "#EB0D42" },
-            { title: "Berlin",        value : 20,   color: "#FFEC62" },
-            { title: "Osaka",         value : 7,    color: "#04374E" }
-        ]);
+        var languages = {
+        };
+        repos.forEach(function (c) {
+            languages[c.language] = languages[c.language] || 0;
+            ++languages[c.language];
+        });
+        delete languages["null"];
+
+        var arr = [];
+        Object.keys(languages).forEach(function (cLang) {
+            arr.push({
+                title: cLang
+              , value: languages[cLang]
+              , color: GH_COLORS[cLang]
+            });
+        });
+        arr.sort(function (a, b) {
+            return a.value < b.value;
+        });
+        $("#pieChart").drawPieChart(arr, {
+            legend: true
+        });
     });
 });
