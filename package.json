@@ -1,0 +1,25 @@
+{
+  "name": "github-profile-languages",
+  "version": "1.0.0",
+  "description": "Create a nice pie chart with the user's programming languages from their GitHub profile.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/IonicaBizau/github-profile-languages.git"
+  },
+  "keywords": [
+    "github",
+    "graph",
+    "chart",
+    "pie"
+  ],
+  "author": "Ionică Bizău <bizauionica@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/IonicaBizau/github-profile-languages/issues"
+  },
+  "homepage": "https://github.com/IonicaBizau/github-profile-languages"
+}
