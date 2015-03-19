@@ -32,7 +32,7 @@
     }
     window.addEventListener("load", function() {
 
-        // jQuery Elements
+        //Elements
 
         var iframe = qs("#graph")
             , input = qs(".form-elm")
