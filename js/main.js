@@ -30,7 +30,7 @@
             }
         }
     }
-    window.onload = function() {
+    window.addEventListener('load', function() {
 
         // jQuery Elements
 
@@ -114,5 +114,5 @@
             }
         });
 
-    };
+    });
 })(document);
