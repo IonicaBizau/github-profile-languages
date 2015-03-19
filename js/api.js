@@ -22,14 +22,14 @@ $(function(){
 
     var user = location.search.replace(/^\?\@?/g, "");
     if (!user) { return; }
-    $(".loading").fadeIn();
+    $(".loading").stop().fadeIn();
     getAllRepos(user, function (err, repos) {
-        $(".loading").fadeOut();
+        $(".loading").stop().fadeOut();
         if (err || !repos.length) {
-            $(".error").fadeIn();
+            $(".error").stop().fadeIn();
             return $(".error > .message").html(err || "This user doesn't have any repositories.");
         }
-        $(".error > .message").fadeOut();
+        $(".error > .message").stop().fadeOut();
         var languages = {
         };
         repos.forEach(function (c) {
