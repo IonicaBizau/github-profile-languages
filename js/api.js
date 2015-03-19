@@ -36,6 +36,7 @@ $(function(){
             languages[c.language] = languages[c.language] || 0;
             ++languages[c.language];
         });
+        languages["Others"] = languages["null"];
         delete languages["null"];
 
         var arr = [];

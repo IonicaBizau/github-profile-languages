@@ -1,4 +1,5 @@
 window.GH_COLORS = {
+    "Others": "#ccc",
     "ABAP": "#ccc",
     "AGS Script": "#B9D9FF",
     "ANTLR": "#9DC3FF",
