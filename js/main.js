@@ -30,9 +30,9 @@ $(function () {
 
         // Update social
         var escaped = escape(location.href);
-        $facebook.attr("src", "https://www.facebook.com/sharer/sharer.php?u=" + escaped);
-        $twitter.attr("src", "http://twitter.com/intent/tweet?text=A pie graph with my programming languages.&url=" + escaped);
-        $facebook.attr("src", "https://plus.google.com/share?url=" + escaped);
+        $facebook.attr("href", "https://www.facebook.com/sharer/sharer.php?u=" + escaped);
+        $twitter.attr("href", "http://twitter.com/intent/tweet?text=A pie graph with my programming languages.&url=" + escaped);
+        $facebook.attr("href", "https://plus.google.com/share?url=" + escaped);
     }
 
     // Writting the username
