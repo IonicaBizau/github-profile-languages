@@ -2,14 +2,19 @@ $(function(){
     function getAllRepos (user, callback, page, repos) {
         page = page || 1;
         repos = repos || [];
+        try {
+            return callback(null, JSON.parse(localStorage[user]));
+        } catch (e) {}
         $.getJSON("https://api.github.com/users/" + user + "/repos?per_page=100&page=" + page, function (newRepos) {
             if (newRepos.length) {
                 repos = repos.concat(newRepos);
                 return getAllRepos (user, callback, ++page, repos);
             }
-            callback (null, repos.filter(function (c) {
+            repos = repos.filter(function (c) {
                 return !c.fork;
-            }));
+            });
+            localStorage[user] = JSON.stringify(repos);
+            callback (null, repos);
         }).error(function(err) {
             callback(err.responseJSON.message);
         })
@@ -42,7 +47,7 @@ $(function(){
             });
         });
         arr.sort(function (a, b) {
-            return a.value < b.value;
+            return a.value < b.value ? 1 : -1;
         });
         $("#pieChart").drawPieChart(arr, {
             legend: true

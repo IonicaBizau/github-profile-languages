@@ -1,4 +1,6 @@
 @import url("https://cdn.rawgit.com/IonicaBizau/CaiuSS/master/dist/caiuss.min.css");
+@import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css");
+
 .content {
     background-color: #fff;
 }
@@ -6,4 +8,76 @@
 #graph {
     width: 600px;
     height: 600px;
+}
+
+.popup {
+    background: rgba(255, 255, 255, 0.81);
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.popup > .popup-content {
+    position: fixed;
+    width: 400px;
+    height: auto;
+    background: rgba(203, 203, 203, 0.84);
+    padding: 1em;
+    top: 50%;
+    margin-top: -100px;
+    margin-left: -200px;
+    left: 50%;
+    border: 1px solid rgba(0, 0, 0, 0.14);
+    box-shadow: 0 5px 11px rgba(0, 0, 0, 0.26);
+}
+
+.popup-content > textarea.form-elm {
+    width: calc(100% - 25px);
+    height: 75px;
+    resize: vertical;
+}
+
+.popup.share .popup-content .close {
+    width: 100%;
+}
+
+.popup {
+    display: none;
+}
+
+.social > a {
+    font-size: 29px;
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    padding: 10px;
+    background: white;
+    text-align: center;
+    -webkit-transition: all .5s linear;
+    -moz-transition: all .5s linear;
+    -o-transition: all .5s linear;
+    -ms-transition: all .5s linear;
+    transition: all .5s linear;
+}
+
+.social {
+    text-align: center;
+}
+
+.social > a.twitter:hover {
+    background: #55ACEE;
+}
+
+.social > a.facebook:hover {
+    background: #3B5998;
+}
+
+.social > a.gplus:hover {
+    background: #DD4B39;
+}
+
+.footer > a:hover {
+    color: #16a085;
 }

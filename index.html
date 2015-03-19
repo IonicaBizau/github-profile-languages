@@ -4,16 +4,46 @@
         <meta charset="UTF-8">
         <title>GitHub Account Language Percentage</title>
         <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <script src="js/url.min.js"></script>
+        <script src="js/jquery.subscribe-better.js"></script>
         <script src="js/main.js"></script>
     </head>
     <body class="bg-white">
-        <div class="container">
-            <div class="content mrg-xl pad-xl text-center">
-                <h1>GitHub Account Languages</h1>
-                <p>Creates a pie graph with user's GitHub account languages.</p>
+        <div class="container text-center">
+            <div class="content mrg-xl pad-xl">
+                <h1><span class="username"></span> Languages</h1>
+                <p>Create a pie chart with user's GitHub account languages.</p>
                 <input class="form-elm" type="text" placeholder="@someone"><br>
-                <iframe id="graph" src="api.html" frameborder="0"></iframe>
+                <iframe id="graph" src="api.html" frameborder="0"></iframe><br>
+                <button data-popup=".popup.share" class="share btn bg-green"><i class="fa fa-share-alt"></i> Share</button>
+                <button data-popup=".popup.embed" class="embed btn bg-green"><i class="fa fa-code"></i> Embed</button>
             </div>
+            <div class="popup embed">
+                <div class="popup-content">
+                    <textarea class="form-elm"></textarea>
+                    <button class="close btn bg-white">Close</button>
+                </div>
+            </div>
+            <div class="popup share">
+                <div class="popup-content">
+                    <div class="social">
+                        <a class="twitter" href="">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                        <a class="facebook" href="">
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                        <a class="gplus" href="">
+                            <i class="fa fa-google-plus"></i>
+                        </a>
+                    </div>
+                    <button class="close btn bg-white">Close</button>
+                </div>
+            </div>
+            <p class="footer">
+                Developed with JavaScript and <i class="fa fa-heart"></i> by <a href="http://ionicabizau.net/">Ionică Bizău</a>
+            </p>
         </div>
     </body>
 </html>
