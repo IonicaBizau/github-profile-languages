@@ -5,9 +5,9 @@ $(function () {
       , $input = $(".form-elm")
       , $username = $(".username")
       , $embed = $(".embed textarea")
-      , $twitter = $(".popup.twitter")
-      , $facebook = $(".popup.facebook")
-      , $gplus = $(".popup.gplus")
+      , $twitter = $(".popup a.twitter")
+      , $facebook = $(".popup a.facebook")
+      , $gplus = $(".popup a.gplus")
       , apiUrl = "https://ionicabizau.github.io/github-profile-languages/api.html"
       ;
 
