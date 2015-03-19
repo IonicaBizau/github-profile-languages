@@ -17,6 +17,7 @@
     right: 0;
     top: 0;
     bottom: 0;
+    transition: opacity .3s;
 }
 
 .popup > .popup-content {
@@ -44,7 +45,12 @@
 }
 
 .popup {
-    display: none;
+    opacity: 0;
+    pointer-events: none;
+}
+.popup.open {
+    opacity: 1;
+    pointer-events: auto;
 }
 
 .social > a {
