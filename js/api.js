@@ -1,4 +1,5 @@
 $(function(){
+
     function getAllRepos (user, callback, page, repos) {
         page = page || 1;
         repos = repos || [];
@@ -23,6 +24,7 @@ $(function(){
     var user = location.search.replace(/^\?\@?/g, "");
     if (!user) { return; }
     $(".loading").stop().fadeIn();
+
     getAllRepos(user, function (err, repos) {
         $(".loading").stop().fadeOut();
         if (err || !repos.length) {
@@ -36,8 +38,11 @@ $(function(){
             languages[c.language] = languages[c.language] || 0;
             ++languages[c.language];
         });
-        languages["Others"] = languages["null"];
-        delete languages["null"];
+
+        if (languages["null"]) {
+            languages["Others"] = languages["null"];
+            delete languages["null"];
+        }
 
         var arr = [];
         Object.keys(languages).forEach(function (cLang) {
