@@ -17,6 +17,11 @@
     "pie"
   ],
   "author": "Ionică Bizău <bizauionica@gmail.com>",
+  "contributors": [{
+    "name": "Madara Uchiha",
+    "email": "uchiha@madara.ninja",
+    "url": "https://github.com/MadaraUchiha"
+  }],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/IonicaBizau/github-profile-languages/issues"
