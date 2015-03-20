@@ -6,19 +6,33 @@
  * Copyright 2013 hiro
  * https://github.com/githiro/drawPieChart
  * Released under the MIT license.
+ *
+ * Modified by Madara Uchiha for non-jQuery environment.
  */
-;(function($, undefined) {
-  $.fn.drawPieChart = function(data, options) {
-    var $this = this,
-      W = $this.width(),
-      H = $this.height()
-      $legend = null,
-       y = 0;
+;(function() {
+
+  function extend(){
+    for(var i=1; i<arguments.length; i++)
+      for(var key in arguments[i])
+        if(arguments[i].hasOwnProperty(key))
+          arguments[0][key] = arguments[i][key];
+    return arguments[0];
+  }
+
+  function firstElementFromHtmlString(string) {
+    var div = document.createElement('div');
+    div.innerHTML = string;
+    return div.childNodes[0];
+  }
+
+  window.drawPieChart = function(data, options) {
+      var W = this.clientWidth,
+        H = this.clientHeight,
+        y = 0;
 
     if (options.legend) {
         var legend = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-        $legend = $(legend);
-        $legend[0].classList.add("legend");
+        legend.classList.add("legend");
         data.forEach(function (cData) {
             var c = document.createElementNS('http://www.w3.org/2000/svg', 'g');
             var rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
@@ -31,9 +45,10 @@
             text.setAttribute("x", 20);
 
             rect.setAttribute("fill", cData.color);
-            $(rect).appendTo($(c));
-            $(text).appendTo($(c));
-            $(c).appendTo($legend);
+
+            c.appendChild(rect);
+            c.appendChild(text);
+            legend.appendChild(c);
         });
         H -= y;
     }
@@ -43,13 +58,13 @@
       cos = Math.cos,
       sin = Math.sin,
       PI = Math.PI,
-      settings = $.extend({
+      settings = extend({
         segmentShowStroke : true,
         segmentStrokeColor : "#fff",
         segmentStrokeWidth : 1,
         baseColor: "#fff",
         baseOffset: 15,
-        edgeOffset: 30,//offset from edge of $this
+        edgeOffset: 30,//offset from edge of this
         pieSegmentGroupClass: "pieSegmentGroup",
         pieSegmentClass: "pieSegment",
         lightPiesOffset: 12,//lighten pie's width
@@ -58,8 +73,8 @@
         animation : true,
         animationSteps : 90,
         animationEasing : "easeInOutExpo",
-        tipOffsetX: -15,
-        tipOffsetY: -45,
+        tipOffsetX: 0,
+        tipOffsetY: -50,
         tipClass: "pieTip",
         beforeDraw: function(){  },
         afterDrawed : function(){  },
@@ -88,10 +103,12 @@
           };
       }();
 
-    var $wrapper = $('<svg width="' + W + '" height="' + (H + y) + '" viewBox="0 0 ' + W + ' ' + (H + y) + '" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"></svg>').appendTo($this);
-    var $groups = [],
-        $pies = [],
-        $lightPies = [],
+    var wrapper = firstElementFromHtmlString('<svg width="' + W + '" height="' + (H + y) + '" viewBox="0 0 ' + W + ' ' + (H + y) + '" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"></svg>');
+    this.appendChild(wrapper);
+
+    var groups = [],
+        pies = [],
+        lightpies = [],
         easingFunction = animationOptions[settings.animationEasing],
         pieRadius = Min([H/2,W/2]) - settings.edgeOffset,
         segmentTotal = 0;
@@ -99,7 +116,7 @@
     //Draw base circle
     var drawBasePie = function(){
       var base = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-      var $base = $(base).appendTo($wrapper);
+      wrapper.appendChild(base);
       base.classList.add("pie");
       base.setAttribute("cx", centerX);
       base.setAttribute("cy", centerY);
@@ -113,25 +130,34 @@
 
     //Set up pie segments wrapper
     var pathGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-    var $pathGroup = $(pathGroup).appendTo($wrapper);
-    $pathGroup[0].setAttribute("opacity",0);
+    pathGroup.setAttribute("opacity",0);
+    wrapper.appendChild(pathGroup);
 
     //Set up tooltip
-    var $tip = $('<div class="' + settings.tipClass + '" />').appendTo('body').hide(),
-      tipW = $tip.width(),
-      tipH = $tip.height();
+    var tip = document.createElement('div');
+    if (settings.tipClass) { tip.classList.add(settings.tipClass); }
+    tip.style.transition = 'opacity 0.2s';
+    document.body.appendChild(tip);
+    tip.style.opacity = 0;
+      var tipW = tip.clientWidth,
+      tipH = tip.clientHeight;
 
     for (var i = 0, len = data.length; i < len; i++){
       segmentTotal += data[i].value;
       var g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-      g.setAttribute("data-order", i);
+      // Firefox only has the .dataset property on HTMLElements. This is an Element.
+      // Adding minimal shim.
+      if (typeof g.dataset === 'undefined') {
+        g.dataset = {};
+      }
+      g.dataset.order = i;
       g.setAttribute("class", settings.pieSegmentGroupClass);
-      $groups[i] = $(g).appendTo($pathGroup);
-      $groups[i]
-        .on("mouseenter", pathMouseEnter)
-        .on("mouseleave", pathMouseLeave)
-        .on("mousemove", pathMouseMove)
-        .on("click", pathClick);
+      groups[i] = g;
+      pathGroup.appendChild(g);
+      groups[i].addEventListener("mouseenter", pathMouseEnter);
+      groups[i].addEventListener("mouseleave", pathMouseLeave);
+      groups[i].addEventListener("mousemove", pathMouseMove);
+      groups[i].addEventListener("click", pathClick);
 
       var p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
       p.setAttribute("stroke-width", settings.segmentStrokeWidth);
@@ -139,10 +165,11 @@
       p.setAttribute("stroke-miterlimit", 2);
       p.setAttribute("fill", data[i].color);
       p.setAttribute("class", settings.pieSegmentClass);
-      $pies[i] = $(p).appendTo($groups[i]);
+      pies[i] = p;
+      groups[i].appendChild(p);
 
       if (options.legend) {
-        $(legend).appendTo($wrapper);
+        wrapper.appendChild(legend);
       }
 
       var lp = document.createElementNS('http://www.w3.org/2000/svg', 'path');
@@ -152,51 +179,53 @@
       lp.setAttribute("fill", data[i].color);
       lp.setAttribute("opacity", settings.lightPiesOpacity);
       lp.setAttribute("class", settings.lightPieClass);
-      $lightPies[i] = $(lp).appendTo($groups[i]);
+
+      lp.style.transition = 'opacity .1s';
+      lightpies[i] = lp;
+      groups[i].appendChild(lp);
     }
 
-    settings.beforeDraw.call($this);
+    settings.beforeDraw.call(this);
     //Animation start
     triggerAnimation();
 
     function pathMouseEnter(e){
-      var index = $(this).data().order;
-      $tip.text(data[index].title + ": " + data[index].value).fadeIn(200);
-      if ($groups[index][0].getAttribute("data-active") !== "active"){
-        $lightPies[index].animate({opacity: .8}, 180);
+      var index = this.dataset.order;
+      tip.textContent = data[index].title + ": " + data[index].value;
+      tip.style.opacity = 1;
+      if (groups[index].getAttribute("data-active") !== "active"){
+        lightpies[index].style.opacity = .8;
       }
-      settings.onPieMouseenter.apply($(this),[e,data]);
+      settings.onPieMouseenter.apply(this,[e,data]);
     }
     function pathMouseLeave(e){
-      var index = $(this).data().order;
-      $tip.hide();
-      if ($groups[index][0].getAttribute("data-active") !== "active"){
-        $lightPies[index].animate({opacity: settings.lightPiesOpacity}, 100);
+      var index = this.dataset.order;
+      tip.style.opacity = 0;
+      if (groups[index].getAttribute("data-active") !== "active"){
+        lightpies[index].style.opacity = settings.lightPiesOpacity;
       }
-      settings.onPieMouseleave.apply($(this),[e,data]);
+      settings.onPieMouseleave.apply(this,[e,data]);
     }
     function pathMouseMove(e){
-      $tip.css({
-        top: e.pageY + settings.tipOffsetY,
-        left: e.pageX - $tip.width() / 2 + settings.tipOffsetX
-      });
+        tip.style.top = (e.pageY + settings.tipOffsetY) + "px";
+        tip.style.left = (e.pageX - tip.clientWidth / 2 + settings.tipOffsetX) + "px";
     }
     function pathClick(e){
-      var index = $(this).data().order;
-      var targetGroup = $groups[index][0];
+      var index = this.dataset.order;
+      var targetGroup = groups[index];
       for (var i = 0, len = data.length; i < len; i++){
         if (i === index) continue;
-        $groups[i][0].setAttribute("data-active","");
-        $lightPies[i].css({opacity: settings.lightPiesOpacity});
+        groups[i].setAttribute("data-active","");
+        lightpies[i].style.opacity = settings.lightPiesOpacity;
       }
       if (targetGroup.getAttribute("data-active") === "active"){
         targetGroup.setAttribute("data-active","");
-        $lightPies[index].css({opacity: .8});
+        lightpies[index].style.opacity = .8;
       } else {
         targetGroup.setAttribute("data-active","active");
-        $lightPies[index].css({opacity: 1});
+        lightpies[index].style.opacity = 1;
       }
-      settings.onPieClick.apply($(this),[e,data]);
+      settings.onPieClick.apply(this,[e,data]);
     }
     function drawPieSegments (animationDecimal){
       var startRadius = -PI/2,//-90 degree
@@ -205,7 +234,7 @@
         rotateAnimation = animationDecimal;//count up between0~1
       }
 
-      $pathGroup[0].setAttribute("opacity",animationDecimal);
+      pathGroup.setAttribute("opacity",animationDecimal);
 
       //draw each path
       for (var i = 0, len = data.length; i < len; i++){
@@ -232,8 +261,8 @@
           'L', centerX, centerY,
           'Z'
         ];
-        $pies[i][0].setAttribute("d",cmd.join(' '));
-        $lightPies[i][0].setAttribute("d", cmd2.join(' '));
+        pies[i].setAttribute("d",cmd.join(' '));
+        lightpies[i].setAttribute("d", cmd2.join(' '));
         startRadius += segmentAngle;
       }
     }
@@ -253,7 +282,7 @@
       if (animCount < 1){
         requestAnimFrame(arguments.callee);
       } else {
-        settings.afterDrawed.call($this);
+        settings.afterDrawed.call(this);
       }
     }
     function Max(arr){
@@ -262,6 +291,6 @@
     function Min(arr){
       return Math.min.apply(null, arr);
     }
-    return $this;
+    return this;
   };
-})(jQuery);
+})();

@@ -66,7 +66,14 @@ body {
     background: white;
     color: #e74c3c;
     font-size: 24px;
-    display: none;
+    transition: opacity .3s;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.loading.visible, .error.visible {
+    opacity: 1;
+    pointer-events: auto;
 }
 
 /* loader */

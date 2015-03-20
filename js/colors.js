@@ -332,4 +332,4 @@ window.GH_COLORS = {
     "reStructuredText": "#ccc",
     "wisp": "#7582D1",
     "xBase": "#3a4040"
-}
+};
