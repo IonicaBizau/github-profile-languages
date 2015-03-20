@@ -1,6 +1,6 @@
 {
   "name": "github-profile-languages",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Create a nice pie chart with the user's programming languages from their GitHub profile.",
   "main": "index.js",
   "scripts": {
@@ -17,11 +17,9 @@
     "pie"
   ],
   "author": "Ionică Bizău <bizauionica@gmail.com>",
-  "contributors": [{
-    "name": "Madara Uchiha",
-    "email": "uchiha@madara.ninja",
-    "url": "https://github.com/MadaraUchiha"
-  }],
+  "contributors": [
+    "Madara Uchiha <uchiha@madara.ninja> (https://github.com/MadaraUchiha)"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/IonicaBizau/github-profile-languages/issues"
