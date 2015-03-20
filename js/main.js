@@ -1,7 +1,8 @@
 (function(doc) {
+
     var qs = doc.querySelector.bind(doc);
     function qsa(selector) {
-        return [].slice.call(doc.querySelectorAll(selector))
+        return [].slice.call(doc.querySelectorAll(selector));
     }
 
 
@@ -28,7 +29,7 @@
 
                 currentElement = this.parentNode;
             }
-        }
+        };
     }
 
     function clearChildren(element) {
@@ -36,19 +37,19 @@
             element.removeChild(element.firstChild);
         }
     }
+
     window.addEventListener("load", function() {
 
         //Elements
-
         var iframe = qs("#graph")
-            , input = qs(".form-elm")
-            , username = qs(".username")
-            , embed = qs(".embed textarea")
-            , twitter = qs(".popup a.twitter")
-            , facebook = qs(".popup a.facebook")
-            , gplus = qs(".popup a.gplus")
-            , apiUrl = "https://ionicabizau.github.io/github-profile-languages/api.html"
-            ;
+          , input = qs(".form-elm")
+          , username = qs(".username")
+          , embed = qs(".embed textarea")
+          , twitter = qs(".popup a.twitter")
+          , facebook = qs(".popup a.facebook")
+          , gplus = qs(".popup a.gplus")
+          , apiUrl = "https://ionicabizau.github.io/github-profile-languages/api.html"
+          ;
 
         /**
          * check
@@ -63,7 +64,7 @@
             var user = decodeURIComponent(queryStringUser);
             if (!user) {
                 username.textContent = "GitHub Profile";
-                return
+                return;
             }
             clearChildren(username);
             var a = document.createElement("a");
@@ -114,12 +115,10 @@
             }
         });
 
-
         window.addEventListener("keydown", function setPopupCloseAllListener(e) {
             if (e.which === 27) {
                 qsa(".popup.open").forEach(function(el) { el.classList.remove(".open"); });
             }
         });
-
     });
 })(document);
