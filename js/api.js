@@ -63,7 +63,12 @@
                 })
                 .catch(function(err) {
                     if (err.id < 400 || err.id > 600) { throw err; }
-                    return Promise.reject(new Error(JSON.parse(err.message).message));
+                    try {
+                        var message = JSON.parse(err.message);
+                    } catch (jsonErr) {
+                        throw err; // The error is not JSON, move on.
+                    }
+                    return Promise.reject(new Error(message.message));
                 });
         }
 

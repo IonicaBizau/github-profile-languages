@@ -30,6 +30,12 @@
             }
         }
     }
+
+    function clearChildren(element) {
+        while(element.firstChild) {
+            element.removeChild(element.firstChild);
+        }
+    }
     window.addEventListener("load", function() {
 
         //Elements
@@ -59,10 +65,11 @@
                 username.textContent = "GitHub Profile";
                 return
             }
+            clearChildren(username);
             var a = document.createElement("a");
             a.setAttribute("target", "blank");
             a.href = "https://github.com/" + user;
-            a.textContent = user.replace(/^@/, '');
+            a.textContent = user[0] === "@" ? user : "@" + user;
 
             username.appendChild(a);
             username.appendChild(document.createTextNode("'s"));
