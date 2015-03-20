@@ -145,7 +145,12 @@
     for (var i = 0, len = data.length; i < len; i++){
       segmentTotal += data[i].value;
       var g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-      g.setAttribute("data-order", i);
+      // Firefox only has the .dataset property on HTMLElements. This is an Element.
+      // Adding minimal shim.
+      if (typeof g.dataset === 'undefined') {
+        g.dataset = {};
+      }
+      g.dataset.order = i;
       g.setAttribute("class", settings.pieSegmentGroupClass);
       groups[i] = g;
       pathGroup.appendChild(g);
