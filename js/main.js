@@ -69,7 +69,7 @@
             clearChildren(username);
             var a = document.createElement("a");
             a.setAttribute("target", "blank");
-            a.href = "https://github.com/" + user;
+            a.href = "https://github.com/" + (user.startsWith("@") ? user.slice(1) : user);
             a.textContent = user[0] === "@" ? user : "@" + user;
 
             username.appendChild(a);
