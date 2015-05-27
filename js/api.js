@@ -13,15 +13,47 @@
 
         loading.classList.add("visible");
 
-        var polyglot = new GitHubPolyglot(input)
-          , func = polyglot.userStats
-          ;
 
-        if (polyglot.repo) {
-            func = polyglot.repoStats
+        function getStats(input, callback) {
+
+            var fromLocalStorage = localStorage[input];
+            try {
+                fromLocalStorage = JSON.parse(fromLocalStorage);
+            } catch (e) {
+                fromLocalStorage = null;
+            }
+
+            if (Array.isArray(fromLocalStorage)) {
+                return callback(null, fromLocalStorage);
+            }
+
+            var polyglot = new GitHubPolyglot(input)
+              , func = polyglot.userStats
+              ;
+
+            if (localStorage[input]) { return callback(null, localStorage[input]); }
+
+
+            if (polyglot.repo) {
+                func = polyglot.repoStats
+            }
+
+            func.call(polyglot, function (err, stats) {
+                if (err) {
+                    return callback(err);
+                }
+
+                try {
+                    localStorage[input] = JSON.stringify(stats);
+                } catch (e) {
+                    localStorage.clear();
+                }
+
+                callback(null, stats);
+            });
         }
 
-        func.call(polyglot, function (err, stats) {
+        getStats(input, function (err, stats) {
             loading.classList.remove("visible");
             if (err) {
                 errorDiv.classList.add("visible");
