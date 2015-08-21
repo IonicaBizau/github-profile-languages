@@ -35,9 +35,22 @@
 <% if (isCli) { %>
 # `$ <%- _.pack.name %>` [![Donate now][donate-now]][paypal-donations]
 <% } else { %>
-# <%- _.pack.name %> [![Donate now][donate-now]][paypal-donations]
+# GitHub Profile Languages [![Donate now][donate-now]][paypal-donations]
 <% } %>
 <%- _.pack.description %>
+
+[![](http://i.imgur.com/QG6Gh5I.png)](http://ionicabizau.github.io/github-profile-languages?user=IonicaBizau)
+
+## How to use
+Open the [this page in your browser](http://ionicabizau.github.io/github-profile-languages) and
+write in the textbox a GitHub username you want to fetch the programming languages graph.
+
+Wait until the data is fetched and enjoy the graph! :smile:
+
+If you like to embed the resulted graph, just click <kbd>Embed</kbd> and copy the embed code in
+your page.
+
+Also, you can share the graph on Twitter, Facebook and Google Plus.
 
 <% if (_.pack.blah.ex_img) { %>
 ![<%- _.pack.name %>](<%-_.pack.blah.ex_img %>)
@@ -83,16 +96,6 @@ Here is an example how to use this package as library.
 <%- exStr %>
 ```
 <% } %>
-<% } %>
-
-<% // Documentation %>
-## Documentation
-
-<% if (isCli) { %>
-For full API reference, see the [DOCUMENTATION.md][docs] file.
-<% } else { %>
-<% docs = docs.split("\n").slice(3).join("\n"); %>
-<%- docs %>
 <% } %>
 
 <% // How to contribute %>
