@@ -4,7 +4,8 @@
         var loading = doc.querySelector(".loading")
           , errorDiv = doc.querySelector(".error")
           , errorMessage = errorDiv.querySelector(".message")
-          , input = location.search.replace(/^\?@?/g, "")
+          , input = (Url.queryString("user") || location.search).replace(/^\?@?/g, "")
+          , token = Url.queryString("token")
           ;
 
         if (!input) {
