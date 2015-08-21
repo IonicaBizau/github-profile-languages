@@ -10,6 +10,15 @@
         if (!input) {
             return;
         }
+        
+        var token = Url.queryString("token") || undefined;
+        if (token) {
+            input = Url.queryString("input");
+            if (!input) {
+                errorDiv.classList.add("visible");
+                return errorMessage.textContent = "If you are using a token, please provide the 'input' querystring parameter.";
+            }
+        }
 
         loading.classList.add("visible");
 
@@ -27,7 +36,7 @@
                 return callback(null, fromLocalStorage);
             }
 
-            var polyglot = new GitHubPolyglot(input)
+            var polyglot = new GitHubPolyglot(input, token)
               , func = polyglot.userStats
               ;
 
