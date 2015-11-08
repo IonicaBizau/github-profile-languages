@@ -16,7 +16,7 @@
     "chart",
     "pie"
   ],
-  "author": "Ionică Bizău <bizauionica@gmail.com>",
+  "author": "Ionică Bizău <bizauionica@gmail.com> (http://ionicabizau.net)",
   "contributors": [
     "Madara Uchiha <uchiha@madara.ninja> (https://github.com/MadaraUchiha)",
     "Unihedron <unihedron@unihedro.com> (https://github.com/Unihedro)"
@@ -25,5 +25,23 @@
   "bugs": {
     "url": "https://github.com/IonicaBizau/github-profile-languages/issues"
   },
-  "homepage": "https://github.com/IonicaBizau/github-profile-languages"
+  "homepage": "https://github.com/IonicaBizau/github-profile-languages",
+  "blah": {
+    "title": "GitHub Profile Languages",
+    "h_img": "http://i.imgur.com/QG6Gh5I.png",
+    "h_url": "http://ionicabizau.github.io/github-profile-languages?user=IonicaBizau",
+    "description": [
+      {
+        "h2": "How to use"
+      },
+      {
+        "p": [
+          "Open the [this page in your browser](http://ionicabizau.github.io/github-profile-languages) and write in the textbox a GitHub username you want to fetch the programming languages graph.",
+          "Wait until the data is fetched and enjoy the graph! :smile:",
+          "If you like to embed the resulted graph, just click <kbd>Embed</kbd> and copy the embed code in your page.",
+          "Also, you can share the graph on Twitter, Facebook and Google Plus."
+        ]
+      }
+    ]
+  }
 }
