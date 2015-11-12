@@ -1,6 +1,7 @@
 [![github-profile-languages](http://i.imgur.com/QG6Gh5I.png)](http://ionicabizau.github.io/github-profile-languages?user=IonicaBizau)
 
 # GitHub Profile Languages [![Support this project][donate-now]][paypal-donations]
+
 Create a nice pie chart with the user's programming languages from their GitHub profile.
 
 ## How to use
