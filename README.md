@@ -1,3 +1,4 @@
+
 [![github-profile-languages](http://i.imgur.com/QG6Gh5I.png)](http://ionicabizau.github.io/github-profile-languages?user=IonicaBizau)
 
 # GitHub Profile Languages [![PayPal](https://img.shields.io/badge/%24-paypal-f39c12.svg)][paypal-donations] [![Version](https://img.shields.io/npm/v/github-profile-languages.svg)](https://www.npmjs.com/package/github-profile-languages) [![Downloads](https://img.shields.io/npm/dt/github-profile-languages.svg)](https://www.npmjs.com/package/github-profile-languages) [![Get help on Codementor](https://cdn.codementor.io/badges/get_help_github.svg)](https://www.codementor.io/johnnyb?utm_source=github&utm_medium=button&utm_term=johnnyb&utm_campaign=github)
@@ -14,10 +15,12 @@ If you like to embed the resulted graph, just click <kbd>Embed</kbd> and copy th
 
 Also, you can share the graph on Twitter, Facebook and Google Plus.
 
-## How to contribute
+
+## :yum: How to contribute
 Have an idea? Found a bug? See [how to contribute][contributing].
 
-## License
+
+## :scroll: License
 
 [MIT][license] © [Ionică Bizău][website]
 
