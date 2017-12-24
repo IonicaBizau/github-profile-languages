@@ -11,6 +11,7 @@
 
 ## How to use
 
+
 Open the [this page in your browser](http://ionicabizau.github.io/github-profile-languages) and write in the textbox a GitHub username you want to fetch the programming languages graph.
 
 Wait until the data is fetched and enjoy the graph! :smile:
