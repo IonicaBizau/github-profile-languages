@@ -101,9 +101,17 @@
             username.appendChild(a);
             username.appendChild(document.createTextNode("'s"));
 
-            iframe.src = "api.html?" + user;
-            input.value = user;
-            embed.value = "<iframe width=\"600\" height=\"600\" src=\"" + apiUrl + "?" + user + "\" frameborder=\"0\"></iframe>";
+
+            if (localStorage.getItem('exc')) {
+                const EXCLUDEDLANGUAGES = localStorage.getItem('exc');
+                iframe.src = "api.html?user=" + user + "&exclude=" + EXCLUDEDLANGUAGES;
+                embed.value = "<iframe width=\"600\" height=\"600\" src=\"" + apiUrl + "?user=" + user + "&exclude=" + EXCLUDEDLANGUAGES + "\" frameborder=\"0\"></iframe>";
+            } else {
+                iframe.src = "api.html?" + user
+                input.value = user;
+                embed.value = "<iframe width=\"600\" height=\"600\" src=\"" + apiUrl + "?" + user + "\" frameborder=\"0\"></iframe>";
+            }
+
 
             // Update social
             var escaped = encodeURI(location.href);

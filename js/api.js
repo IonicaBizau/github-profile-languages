@@ -12,6 +12,27 @@
             return;
         }
 
+        let search = location.search;
+        search = search[0] === '?' ? search.substr(1) : search;
+        search = search.split('&');
+
+        let params = [];
+
+        search.forEach(param => {
+            let obj = param.split('=')
+            obj = {
+                p: obj[0],
+                v: obj[1]
+            }
+            params.push(obj)
+        });
+
+        params.forEach(e => {
+            if (e.p === 'exclude') {
+                localStorage.setItem('exc', e.v)
+            }
+        });
+
         var token = Url.queryString("token") || undefined;
         if (token) {
             input = Url.queryString("input");
