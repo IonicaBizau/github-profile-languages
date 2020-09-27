@@ -1,8 +1,39 @@
-(function(doc) {
+(function (doc) {
 
     var qs = doc.querySelector.bind(doc);
     function qsa(selector) {
         return [].slice.call(doc.querySelectorAll(selector));
+    }
+
+
+    if (location.search) {
+
+        let search = location.search
+        search = search[0] === '?' ? search.substr(1) : search
+
+        let query = search.split('&')
+        let params = [];
+        console.log(query);
+
+        query.forEach(q => {
+            let obj = q.split('=')
+            obj = {
+                p: obj[0],
+                v: obj[1]
+            }
+            params.push(obj)
+        });
+
+        console.log(params);
+
+        params.forEach(e => {
+            if (e.p === 'exclude') {
+                console.log('ok');
+                localStorage.setItem('exc', e.v)
+            }
+        });
+
+        console.log(localStorage.getItem('exc'));
     }
 
 
@@ -16,7 +47,7 @@
          * @param {string} selector
          * @returns {Element|null}
          */
-        Element.prototype.closest = function(selector) {
+        Element.prototype.closest = function (selector) {
             var currentElement = this;
             while (this.parentNode !== null) {
                 var currentParent = currentElement.parentNode;
@@ -33,23 +64,23 @@
     }
 
     function clearChildren(element) {
-        while(element.firstChild) {
+        while (element.firstChild) {
             element.removeChild(element.firstChild);
         }
     }
 
-    window.addEventListener("load", function() {
+    window.addEventListener("load", function () {
 
         //Elements
         var iframe = qs("#graph")
-          , input = qs(".form-elm")
-          , username = qs(".username")
-          , embed = qs(".embed textarea")
-          , twitter = qs(".popup a.twitter")
-          , facebook = qs(".popup a.facebook")
-          , gplus = qs(".popup a.gplus")
-          , apiUrl = "https://ionicabizau.github.io/github-profile-languages/api.html"
-          ;
+            , input = qs(".form-elm")
+            , username = qs(".username")
+            , embed = qs(".embed textarea")
+            , twitter = qs(".popup a.twitter")
+            , facebook = qs(".popup a.facebook")
+            , gplus = qs(".popup a.gplus")
+            , apiUrl = "https://ionicabizau.github.io/github-profile-languages/api.html"
+            ;
 
         /**
          * check
@@ -117,7 +148,7 @@
 
         window.addEventListener("keydown", function setPopupCloseAllListener(e) {
             if (e.which === 27) {
-                qsa(".popup.open").forEach(function(el) { el.classList.remove(".open"); });
+                qsa(".popup.open").forEach(function (el) { el.classList.remove(".open"); });
             }
         });
     });
