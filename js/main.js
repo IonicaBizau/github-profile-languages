@@ -7,16 +7,16 @@
 
 
     if (location.search) {
+        localStorage.removeItem('exc')
 
-        let search = location.search
-        search = search[0] === '?' ? search.substr(1) : search
+        let search = location.search;
+        search = search[0] === '?' ? search.substr(1) : search;
+        search = search.split('&');
 
-        let query = search.split('&')
         let params = [];
-        console.log(query);
 
-        query.forEach(q => {
-            let obj = q.split('=')
+        search.forEach(param => {
+            let obj = param.split('=')
             obj = {
                 p: obj[0],
                 v: obj[1]
@@ -24,16 +24,11 @@
             params.push(obj)
         });
 
-        console.log(params);
-
         params.forEach(e => {
             if (e.p === 'exclude') {
-                console.log('ok');
                 localStorage.setItem('exc', e.v)
             }
         });
-
-        console.log(localStorage.getItem('exc'));
     }
 
 
