@@ -1,17 +1,38 @@
-(function(doc) {
+(function (doc) {
     window.addEventListener("load", function apiOnDomReady() {
 
         var loading = doc.querySelector(".loading")
-          , errorDiv = doc.querySelector(".error")
-          , errorMessage = errorDiv.querySelector(".message")
-          , input = (Url.queryString("user") || location.search).replace(/^\?@?/g, "")
-          , token = Url.queryString("token")
-          ;
+            , errorDiv = doc.querySelector(".error")
+            , errorMessage = errorDiv.querySelector(".message")
+            , input = (Url.queryString("user") || location.search).replace(/^\?@?/g, "")
+            , token = Url.queryString("token")
+            ;
 
         if (!input) {
             return;
         }
-        
+
+        let search = location.search;
+        search = search[0] === '?' ? search.substr(1) : search;
+        search = search.split('&');
+
+        let params = [];
+
+        search.forEach(param => {
+            let obj = param.split('=')
+            obj = {
+                p: obj[0],
+                v: obj[1]
+            }
+            params.push(obj)
+        });
+
+        params.forEach(e => {
+            if (e.p === 'exclude') {
+                localStorage.setItem('exc', e.v)
+            }
+        });
+
         var token = Url.queryString("token") || undefined;
         if (token) {
             input = Url.queryString("input");
@@ -38,8 +59,8 @@
             }
 
             var polyglot = new GitHubPolyglot(input, token)
-              , func = polyglot.userStats
-              ;
+                , func = polyglot.userStats
+                ;
 
             if (localStorage[input]) { return callback(null, localStorage[input]); }
 
@@ -69,13 +90,27 @@
                 errorDiv.classList.add("visible");
                 return errorMessage.textContent = err || "This user doesn't have any repositories.";
             }
-            stats.sort(function (a, b) {
+
+            let newStats = [];
+
+            if (localStorage.getItem('exc')) {
+                let excludedLanguages = localStorage.getItem('exc').split(',');
+
+                stats.forEach(e => {
+                    if (!excludedLanguages.includes(e.label.toLowerCase())) {
+                        newStats.push(e);
+                    }
+                });
+            }
+
+            newStats = newStats.length ? newStats : [...stats];
+            newStats.sort(function (a, b) {
                 return a.value < b.value ? 1 : -1;
             }).forEach(function (c) {
                 c.title = c.label;
                 delete c.label;
             });
-            drawPieChart.call(doc.querySelector("#pieChart"), stats, {
+            drawPieChart.call(doc.querySelector("#pieChart"), newStats, {
                 legend: true
             });
         });
