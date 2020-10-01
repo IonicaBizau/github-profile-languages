@@ -106,13 +106,27 @@
             newStats = newStats.length ? newStats : [...stats];
             newStats.sort(function (a, b) {
                 return a.value < b.value ? 1 : -1;
-            }).forEach(function (c) {
+            });
+
+            let total = 0;
+            newStats.forEach(function (c) {
+                total = total+c.value;
+            });
+
+            newStats.forEach(function (c) {
+                c.value = Math.round( ((c.value/total)*100) * 100 + Number.EPSILON ) / 100;
                 c.title = c.label;
                 delete c.label;
             });
+
             drawPieChart.call(doc.querySelector("#pieChart"), newStats, {
-                legend: true
+                legend: true,
+                onPieMouseenter: function (e, data) {
+                    let text = document.getElementsByClassName("pieTip")[0].textContent;
+                    document.getElementsByClassName("pieTip")[0].textContent = text+"%";
+                }
             });
+
         });
     });
 })(document);
