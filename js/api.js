@@ -2,11 +2,11 @@
     window.addEventListener("load", function apiOnDomReady() {
 
         var loading = doc.querySelector(".loading")
-            , errorDiv = doc.querySelector(".error")
-            , errorMessage = errorDiv.querySelector(".message")
-            , input = (Url.queryString("user") || location.search).replace(/^\?@?/g, "")
-            , token = Url.queryString("token")
-            ;
+          , errorDiv = doc.querySelector(".error")
+          , errorMessage = errorDiv.querySelector(".message")
+          , input = (Url.queryString("user") || location.search).replace(/^\?@?/g, "")
+          , token = Url.queryString("token")
+          ;
 
         if (!input) {
             return;
@@ -59,8 +59,8 @@
             }
 
             var polyglot = new GitHubPolyglot(input, token)
-                , func = polyglot.userStats
-                ;
+              , func = polyglot.userStats
+              ;
 
             if (localStorage[input]) { return callback(null, localStorage[input]); }
 
