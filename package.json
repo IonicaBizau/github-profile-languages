@@ -1,6 +1,6 @@
 {
   "name": "github-profile-languages",
-  "version": "2.3.11",
+  "version": "2.4.0",
   "description": "Create a nice pie chart with the user's programming languages from their GitHub profile.",
   "main": "lib/index.js",
   "scripts": {
