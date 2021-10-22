@@ -4,8 +4,10 @@
         <meta charset="UTF-8">
         <title>GitHub Profile Languages</title>
         <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8">
+        <link rel="stylesheet" href="css/copytoclipboard.css" type="text/css" media="screen" charset="utf-8">
         <script src="js/url.min.js"></script>
         <script src="js/main.js"></script>
+        <script src="js/copyToClipboard.js"></script>
     </head>
     <body class="bg-white">
         <div class="container text-center">
@@ -20,8 +22,15 @@
             </div>
             <div class="popup embed">
                 <div class="popup-content">
-                    <textarea class="form-elm"></textarea>
+                    <textarea class="form-elm" id="embed_text"></textarea>
                     <button class="close btn bg-white">Close</button>
+                    <div class="tooltip">
+                        <button onclick="copyToClipboard()" class="btn" >
+                          <span class="tooltiptext" id="myTooltip">Copy</span>
+                          Copy it!
+                          </button>
+                        </div>
+                        
                 </div>
             </div>
             <div class="popup share">
